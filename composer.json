@@ -1,0 +1,13 @@
+{
+    "name": "codeque/voguepay-php-library",
+    "description": "VoguePay API Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Khaliq Ojikutu",
+            "email": "khaliqojikutu@gmail.com"
+        }
+    ],
+    "require": {}
+}
