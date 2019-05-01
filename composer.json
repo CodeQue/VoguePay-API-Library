@@ -1,5 +1,5 @@
 {
-    "name": "voguepay/voguepay-php-library",
+    "name": "voguepay/voguepay",
     "description": "VoguePay API Library",
     "type": "library",
     "license": "MIT",
