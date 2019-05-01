@@ -9,5 +9,10 @@
             "email": "khaliqojikutu@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "VoguePay//" : "src/"
+        }
+    },
     "require": {}
 }
