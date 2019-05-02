@@ -1,4 +1,4 @@
-# VoguePay API Library Suit
+# VoguePay API Library Suite
 <p>
     <a href="https://php.net" rel="nofollow">PHP</a> 5.5+ and <a href="https://getcomposer.org" rel="nofollow">Composer</a> are required.
 </p>
@@ -29,7 +29,8 @@
 <div>
     Using the PHP Library
     <div>
-        Using the voguepay::card function
+        <h3>Initiating Payment</h3>
+        <p>Using the voguepay::card function</p>
     </div>
     <pre>
         voguepay::card($payLoad);
@@ -88,14 +89,83 @@
             [description] => Redirection Required - 3D Authentication required. // Response code description
             [redirectUrl] => https://voguepay.com/?p=vpgate&ref=czoxMzoiNWNiZjQ2OTBlNDFkMCI7 // 3D redirection URL
             [reference] => 1x2345vbn // Transaction reference
-            [response] => WL3D // Transaction response
+            [response] => WL3D // Transaction response code
             [status] => OK // API query status
             [transactionID] => 5cbf4690e41d0 // Generated VoguePay transaction ID
         )
         </pre>
         <p>On a successful API call, this returns an array of data, which includes the 3D authentication url. [redirectUrl]</p>
         <p>Redirect to the 3D authentication URL to complete transaction.</p>
-        If there is an error, or a details prvoided is invalid, the status is represented as [status] => ERROR
-        The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for voguepay::getResponse()
+        <p>If there is an error, or a details prvoided is invalid, the status is represented as [status] => ERROR</p>
+        <p>Sample of an error response below</p>
+        <pre>
+        stdClass Object
+        (
+            [description] => Incorrect CVV
+            [field] => CVV
+            [reference] => 1x2345vbn
+            [response] => WL003
+            [status] => ERROR
+        )
+        </pre>
+        <p>The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for voguepay::getResponse()</p>
+        <p>After payment is completed. A POST request ($_POST['transactionid]) is sent to the callback URL and redirect URL included in the payload. This is used to get the transaction response and validate if the transaction is successful</p>
+    </div>
+    <div>
+        <h3>Getting transaction response</h3>
+        <p>oguepay::getResponse($transactionDetails)</p>
+        <p>Sample code below</p>
+        <pre>
+        require_once './vendor/autoload.php';
+        use VoguePay\voguepay;
+        $data = [
+            "transactionID" => "5cbf4690e41d0",
+            "merchant" => [
+                "merchantUsername" => "***", // merchant username on VoguePay
+                "merchantID" => "***-***", // merchantID of account on VoguePay
+                "merchantEmail" => "***@gmail.com", // registered email address of account on VoguePay
+                "apiToken" => "TUDMQ735hNKNaQCBkZYVHvjHqNBk", // Command API token of account on VoguePay
+            ],
+        ];
+        print_r(voguepay::getResponse($data));
+        </pre>
+        <p>Sample Transaction response below</p>
+        <pre>
+stdClass Object
+(
+    [apiProcessTime] => 0.002103 // API response time
+    [buyerDetails] => stdClass Object
+        (
+            [email] => ***@gmail.com // Customer Email address
+            [phone] => *********** // Customer Phone Number
+            [maskedPan] => 537010******6414 // Masked Pan used for payment
+            [cardType] =>  Mastercard // Card type 
+        )
+
+    [description] => API query sucessful // API response description
+    [response] => OK // API response code
+    [status] => OK // API status
+    [transaction] => stdClass Object
+        (
+            [total] => 10.00 // Amount paid
+            [status] => Approved // Transaction status
+            [currencySymbol] => ₦ // Transaction currency symbol
+            [currency] => NGN // Transaction currency Code
+            [merchantID] => ***-*** // Merchant ID of merchant on VoguePay
+            [transactionID] => 5cbf4690e41d0 // Transaction ID of transaction on VoguePay
+            [transactionDate] => 2019-05-01 // Date of transaction
+            [transactionTime] => 08:30:53 // Time of transaction
+            [reference] => 1x2345vbn // Reference, returned as passed in the payload. This can be used to authenticate transaction on merchant side
+            [description] => This is a test payment //Payment description
+            [totalPaidByCustomer] => 10.00 // Total paid by the customer
+            [creditedToMerchant] => 9.85 // Amount credited to merchant account on VoguePay
+            [chargesPaid] => 0.15 // Total charges paid on transaction
+            [extraConfiguredCharges] => 0.00 // Extra configured charges if applicable 
+            [fundsMaturity] => 2019-05-02 // Date of transaction maturity
+            [responseCode] => 00 // Transaction response code
+            [responseDescription] => Transaction Approved // Transaction response decription
+        )
+)
+        </pre>
     </div>
 </div>
