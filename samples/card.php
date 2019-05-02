@@ -3,7 +3,7 @@ require_once './vendor/autoload.php'; // location of the autoload file
 use VoguePay\voguepay;
 $data = [];
 $data = [
-    "version" => "2", // version of the API to be called
+    "version" => "2", // version of the API to be called 
     "merchant" => [
         "merchantUsername" => "***", // merchant username on VoguePay
         "merchantID" => "***-***", // merchant merchantID on VoguePay
