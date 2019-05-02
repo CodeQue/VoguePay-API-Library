@@ -130,7 +130,8 @@
         print_r(voguepay::getResponse($data));
         </pre>
         <p>Sample Transaction response below</p>
-        <pre>
+        
+<pre>
             stdClass Object
             (
                 [apiProcessTime] => 0.002103 // API response time
@@ -166,6 +167,6 @@
                     [responseDescription] => Transaction Approved // Transaction response decription
                 )
             )
-        </pre>
+</pre>
     </div>
 </div>
