@@ -1,7 +1,4 @@
-# VoguePay-Library
-<blockquote>
-    <p> VoguePay API Library Suit </p>
-</blockquote>
+# VoguePay API Library Suit
 <p>
     <a href="https://php.net" rel="nofollow">PHP</a> 5.5+ and <a href="https://getcomposer.org" rel="nofollow">Composer</a> are required.
 </p>
@@ -16,8 +13,10 @@
 <div>
     <pre>
         <?php
-            require_once './vendor/autoload.php'; // location of the autoload file
-            use VoguePay\voguepay;
+            return [
+                require_once './vendor/autoload.php'; // location of the autoload file
+                use VoguePay\voguepay;
+            ];
         ?>
     </pre>
 </div>
