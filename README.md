@@ -16,3 +16,13 @@
         use VoguePay\voguepay;
     </pre>
 </div>
+
+<div>
+    <p>The class would make available the following functions</p>
+    <pre>
+        voguepay::card
+        voguepay::chargeToken
+        voguepay::getResponse
+    </pre>
+    Class usage and examples below
+</div>
