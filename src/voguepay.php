@@ -21,13 +21,14 @@ class voguepay {
         $cardDetails = (object) [
             "card" => [
                 "name" => $data->card->name, // Name of card holder
-                "pan" => trim($data->card->pan), // Card Pan
-                "month" => trim($data->card->month), // Expiry month 01-12
-                "year" => trim($data->card->year), // expiry year, expected 2 digits e.g 21
-                "cvv" => trim($data->card->cvv) // card cvv details
+                "pan" => preg_replace('/\s+/', '', $data->card->pan), // Card Pan
+                "month" => preg_replace('/\s+/', '', $data->card->month), // Expiry month 01-12
+                "year" => preg_replace('/\s+/', '', $data->card->year), // expiry year, expected 2 digits e.g 21
+                "cvv" => preg_replace('/\s+/', '', $data->card->cvv) // card cvv details
             ]
         ];
         
+        if (empty($data->demo)) = $data->demo = false;
         //expected data request
         $payLoad = (object) [
             "merchant" => $data->merchant->merchantID, // merchant ID
@@ -64,6 +65,7 @@ class voguepay {
         $data = json_decode(json_encode($data));
         //generate hash
         $hash = hash('sha512',$data->merchant->apiToken.merchantConfiguration::getResponse().$data->merchant->merchantEmail.$reference);
+        if (empty($data->demo)) = $data->demo = false;
          //process details needed for the hashing
         $payload = (object) [
             "merchant" => $data->merchant->merchantID,
@@ -71,7 +73,8 @@ class voguepay {
             "hash" => $hash,
             "transaction_id" => $data->transactionID,
             "task" => merchantConfiguration::getResponse(),
-            "ref" => $reference
+            "ref" => $reference,
+            "demo" => ($data->demo === true) ? true : false, // Set to true to do a testing transaction
         ];
         
         $receivedResponse = connection::connect($payload);
@@ -85,7 +88,7 @@ class voguepay {
         $hash = hash('sha512', $data->merchant->apiToken.merchantConfiguration::card().$data->merchant->merchantEmail.$reference);
         $card_details = (object) [
             "card" => [
-                "cvv" => trim($data->card->cvv) // card cvv details
+                "cvv" => preg_replace('/\s+/', '', $data->card->cvv) // card cvv details
             ]
         ];
 

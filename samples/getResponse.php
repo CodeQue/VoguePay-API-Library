@@ -9,6 +9,7 @@ $data = [
         "merchantEmail" => "****@gmail.com", // registered email address on VoguePay
         "apiToken" => "TUDMQ735hNKNaQCBkZYVHvjHqNBk", // Command API token
     ],
+    "demo" => false // Set to true to do a testing transaction
 ];
 print_r(voguepay::getResponse($data));
 /*

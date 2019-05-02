@@ -56,6 +56,9 @@ class response {
         if ($merchantUsername != $merchantDetails->merchantUsername) return (object) ["status" => "ERROR", "response" => "WL000", "message" => "No matching merchant details found. Process terminated."];
         else if ($responseCode->hash != hash('sha512',$merchantDetails->apiToken.$merchantDetails->merchantEmail.$responseCode->salt)) return (object) ["status" => "ERROR", "response" => "WL000", "message" => "Data integrity failure. Unable to generate matching hash details. Ensure connection details are correct. Visit https://voguepay.com/account_settings to get connection details. Process terminated"];
         else{
+            
+            if (empty($responseCode->response)) $responseCode->response = "WL003";
+            if (empty($responseCode->status)) $responseCode->response = "ERROR";
 
             if (!empty($responseCode->field) AND !empty($responseCode->message) ){
                 $search = [
