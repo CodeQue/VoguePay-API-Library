@@ -148,7 +148,7 @@ Using the PHP Library
         [status] => OK // API status
         [transaction] => stdClass Object
         (
-            [total] => 10.00 // Amount paid
+            [total] => 10.00 // Transaction Amount
             [status] => Approved // Transaction status
             [currencySymbol] => ₦ // Transaction currency symbol
             [currency] => NGN // Transaction currency Code
@@ -174,9 +174,85 @@ Using the PHP Library
 <pre>
 <h3>
 A transaction is only to be approved when the 
-transaction status [transaction][status] is Approved
-and the transaction response code [transaction][responseCode] == 00
+transaction status [transaction][status] is equals to Approved
+and the transaction response code [transaction][responseCode] is equals to 00
 </h3>
 </pre>
+<p>Sample code of a declined transaction</p>
+<pre>
+    stdClass Object
+    (
+        [apiProcessTime] => 0.002103 // API response time
+        [buyerDetails] => stdClass Object
+        (
+            [email] => ***@gmail.com // Customer Email address
+            [phone] => *********** // Customer Phone Number
+            [maskedPan] => 537010******6414 // Masked Pan used for payment
+            [cardType] =>  Mastercard // Card type 
+        )
+
+        [description] => API query sucessful // API response description
+        [response] => OK // API response code
+        [status] => OK // API status
+        [transaction] => stdClass Object
+        (
+            [total] => 10.00 // Transaction Amount
+            [status] => Declined // Transaction status
+            [currencySymbol] => ₦ // Transaction currency symbol
+            [currency] => NGN // Transaction currency Code
+            [merchantID] => ***-*** // Merchant ID of merchant on VoguePay
+            [transactionID] => 5cca90d020532 // Transaction ID of transaction on VoguePay
+            [transactionDate] => 2019-05-01 // Date of transaction
+            [transactionTime] => 08:30:53 // Time of transaction
+            [reference] => 1x2345vbn // Reference, returned as passed in the payload. This can be used to authenticate transaction on merchant side
+            [description] => This is a test payment //Payment description
+            [totalPaidByCustomer] => 0 // Total paid by the customer
+            [creditedToMerchant] => 0 // Amount credited to merchant account on VoguePay
+            [chargesPaid] => 0 // Total charges paid on transaction
+            [extraConfiguredCharges] => 0 // Extra configured charges if applicable 
+            [fundsMaturity] => 2019-05-02 // Date of transaction maturity
+            [responseCode] => EC0571 // Transaction response code
+            [responseDescription] => Transaction not Permitted to Cardholder // Transaction response decription
+        )
+    )
+</pre>
+<p>Tokenized details of the card [transaction][token] can be saved and used for future debits using voguepay::chargeToken()</p>
+<h3>Charging a card with token</h3>
+<p>Using voguepay::chargeToken()</p>
+<p>Sample code below</p>
+<pre>
+require_once './vendor/autoload.php';
+use VoguePay\voguepay;
+$data = [];
+$data = [
+    "version" => "2", // version of the API to be called
+    "merchant" => [
+        "merchantUsername" => "***", // Username of Merchant On VoguePay
+        "merchantID" => "***-***", // Merchant ID of account on VoguePay
+        "merchantEmail" => "***@gmail.com", // Registered email of account on VoguePay
+        "apiToken" => "TUDMQ735hNKNaQCBkZYVHvjHqNBk", // Command API Key of account on VoguePay
+        "publicKey" => file_get_contents('key.crt') // Public Key of account on Voguepay. This is to be copied and save to a file. The location of the file is to be replaced.
+    ],
+    "card" => [
+        "token" => "**********", // Transaction token
+        "cvv" => "948" //Card CVV number
+    ],
+    "customer" => [
+        "email" => "***@gmail.com", // Email of customer
+    ],
+    "transaction" => [
+        "amount" => 100, //amount to be charged
+        "description" => "This is a test payment", //Description of payment
+        "reference" => "1x2345vbn", // Unique transaction reference, this is returned with the transaction details
+        "currency" => "USD", //Supported currency USD, GBP, EUR, NGN
+    ],
+    "descriptor" => [
+        "companyName" => "***", // {Optional} - Company name
+        "countryIso" => "NGA" // 3 letter country iso
+    ],
+];
+print_r(voguepay::chargeToken($data));
+</pre>
+<p>For sample response of voguepay::chargeToken() make reference to voguepay::getResponse() sample response and explanation.</p>
 </div>
 </div>
