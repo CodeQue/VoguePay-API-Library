@@ -42,20 +42,15 @@ $data = [
     ],
     "demo" => "false", // boolean (true / false) , set to true to imitate a demo transaction and false for live transaction
 ];
-?>
-<pre>
-    <?php 
-        echo print_r($voguepay->card($data), true); 
-        /*
-        stdClass Object
-        (
-            [description] => Redirection Required - 3D Authentication required. // Response code description
-            [redirectUrl] => https://voguepay.com/?p=vpgate&ref=czoxMzoiNWNiZjQ2OTBlNDFkMCI7 // 3D redirection URL
-            [reference] => 1x2345vbn // Transaction reference
-            [response] => WL3D // Transaction response
-            [status] => OK // API query status
-            [transactionID] => 5cbf4690e41d0 // Generated VoguePay transaction ID
-        )
-        */
-    ?>
-</pre>
+    print_r(voguepay::card($data)); 
+    /*
+    stdClass Object
+    (
+        [description] => Redirection Required - 3D Authentication required. // Response code description
+        [redirectUrl] => https://voguepay.com/?p=vpgate&ref=czoxMzoiNWNiZjQ2OTBlNDFkMCI7 // 3D redirection URL
+        [reference] => 1x2345vbn // Transaction reference
+        [response] => WL3D // Transaction response
+        [status] => OK // API query status
+        [transactionID] => 5cbf4690e41d0 // Generated VoguePay transaction ID
+    )
+    */
