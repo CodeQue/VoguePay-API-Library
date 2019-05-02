@@ -168,5 +168,15 @@ Using the PHP Library
         )
     )
 </pre>
+<h3>Interpreting the transaction response</h3>
+<p>As explained earlier. the API [status] and [response] when OK does not mean the transaction is approved.</p>
+<p>An approved transaction is interpreted by checking the transaction details of the array. [transaction][status] and [transaction][responseCode]</p>
+<pre>
+<h3>
+A transaction is only to be approved when the 
+transaction status [transaction][status] is Approved
+and the transaction response code [transaction][responseCode] == 00
+</h3>
+</pre>
 </div>
 </div>
