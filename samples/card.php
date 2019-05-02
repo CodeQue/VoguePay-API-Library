@@ -40,7 +40,7 @@ $data = [
         "companyName" => "*******", // {Optional} - Company name
         "countryIso" => "***" //3 letter country ISO
     ],
-    "demo" => "false", // boolean (true / false) , set to true to imitate a demo transaction and false for live transaction
+    "demo" => false, // boolean (true / false) , set to true to imitate a demo transaction and false for live transaction
 ];
 print_r(voguepay::card($data)); 
 /*
