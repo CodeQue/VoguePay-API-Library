@@ -1,57 +1,55 @@
 <?php
 namespace Voguepay;
 
-$codes = [
-    "X001" => "Merchant ID provided is Invalid. You can check your VoguePay merchant ID by login into your account at https://voguepay.com/login",
-    "X002" => "A Random reference (ref) not provided.",
-    "X003" => "Unable to generate a matching hash. This is caused if the details of the account you provided is Invalid. Login and check your settings page at https://voguepay.com/account_settings for the correct integration details.",
-    "X004" => "The task specified is not supported. Please check https://voguepay.com/documentation for the supported tasks.",
-    "X005" => "Merchant ID provided is Invalid. You can check your VoguePay merchant ID by login into your account at https://voguepay.com/login",
-    "X006" => "Unable to generate a matching hash. This is caused if the details of the account you provided is Invalid. Login and check your settings page at https://voguepay.com/account_settings for the correct integration details.",
-    "WL001" => "The details provided in {field} is invalid.",
-    "WL002" => "Incorect / Insufficient details provided {message} - {field}",
-    "WL003" => "Transaction failed to pass risk checks",
-    "WL004" => "The provided currency ISO is not supported. Supported currency ISO are - GBP, USD, EURO, NGN, ZAR",
-    "WL3D" => "Redirection Required - 3D Authentication required.",
-    "Q001" => "No transactionID provided. Ensure that a valid transactionID id is provided.",
-    "Q002" => "Records of the provided transactionID could not be found.",
-    "OK" => "API query sucessful"
-];
+class response {
 
-$currency = [
-    "$" => "USD",
-    "£" => "GBP",
-    "€" => "EUR",
-    "₦" => "NGN"
-];
+    private static $currency = [
+        "$" => "USD",
+        "£" => "GBP",
+        "€" => "EUR",
+        "₦" => "NGN"
+    ];
 
-$riskCodes = [
-    "FC00S0" => 'Failed to pass security checks',
-    "FC00S1" => 'Suspected transaction pattern. Transaction Blocked.',
-    "FC00S2" => 'Multiple transactions exceeding risk assessment threshhold',
-    "FC00S3" => 'Multiple transactions exceeding risk assessment threshhold',
-    "FC00S4" => 'Multiple transactions exceeding risk assessment threshhold',
-    "FC00S5" => 'Multiple transactions exceeding risk assessment threshhold',
-    "FC00S6" => 'Multiple fingerprints detected for a single user',
-    "FC00S7" => 'Multiple transactions on same card exceeding risk assessment threshhold',
-    "FC04S8" => 'Multiple insufficient balance on same card',
-    "FC00S9" => 'Transaction from blocked location',
-    "FC00S10" => 'Card used has been registered to another account',
-    "FC00S11" => 'Max allowed card usage exceeded',
-    "FC00S12" => 'Exceeds permitted daily transaction treshold',
-    "FC00S13" => 'Card Bin not allowed',
-    "FC00S41" => "Referral URL not provided",
-    "FC00S42" => "Server Ip could not be resolved. This is caused if a transaction details was sent from a new server IP. Kinldy request that the ip of your new server be enabled for use through support@voguepay.com",
-    "FC00S43" => "Customer IP could not be resolved or blacklisted",
-    "FC00S44" => "Server SSL certificate could not be validated. Ensure your server SSL is active.",
-    "FC00S45" => "Transaction token provided could not be identified."
-];
+    private static $riskCodes =  [
+        "FC00S0" => 'Failed to pass security checks',
+        "FC00S1" => 'Suspected transaction pattern. Transaction Blocked.',
+        "FC00S2" => 'Multiple transactions exceeding risk assessment threshhold',
+        "FC00S3" => 'Multiple transactions exceeding risk assessment threshhold',
+        "FC00S4" => 'Multiple transactions exceeding risk assessment threshhold',
+        "FC00S5" => 'Multiple transactions exceeding risk assessment threshhold',
+        "FC00S6" => 'Multiple fingerprints detected for a single user',
+        "FC00S7" => 'Multiple transactions on same card exceeding risk assessment threshhold',
+        "FC04S8" => 'Multiple insufficient balance on same card',
+        "FC00S9" => 'Transaction from blocked location',
+        "FC00S10" => 'Card used has been registered to another account',
+        "FC00S11" => 'Max allowed card usage exceeded',
+        "FC00S12" => 'Exceeds permitted daily transaction treshold',
+        "FC00S13" => 'Card Bin not allowed',
+        "FC00S41" => "Referral URL not provided",
+        "FC00S42" => "Server Ip could not be resolved. This is caused if a transaction details was sent from a new server IP. Kinldy request that the ip of your new server be enabled for use through support@voguepay.com",
+        "FC00S43" => "Customer IP could not be resolved or blacklisted",
+        "FC00S44" => "Server SSL certificate could not be validated. Ensure your server SSL is active.",
+        "FC00S45" => "Transaction token provided could not be identified."
+    ];
 
+    private static $codes = [
+        "X001" => "Merchant ID provided is Invalid. You can check your VoguePay merchant ID by login into your account at https://voguepay.com/login",
+        "X002" => "A Random reference (ref) not provided.",
+        "X003" => "Unable to generate a matching hash. This is caused if the details of the account you provided is Invalid. Login and check your settings page at https://voguepay.com/account_settings for the correct integration details.",
+        "X004" => "The task specified is not supported. Please check https://voguepay.com/documentation for the supported tasks.",
+        "X005" => "Merchant ID provided is Invalid. You can check your VoguePay merchant ID by login into your account at https://voguepay.com/login",
+        "X006" => "Unable to generate a matching hash. This is caused if the details of the account you provided is Invalid. Login and check your settings page at https://voguepay.com/account_settings for the correct integration details.",
+        "WL001" => "The details provided in {field} is invalid.",
+        "WL002" => "Incorect / Insufficient details provided {message} - {field}",
+        "WL003" => "Transaction failed to pass risk checks",
+        "WL004" => "The provided currency ISO is not supported. Supported currency ISO are - GBP, USD, EURO, NGN, ZAR",
+        "WL3D" => "Redirection Required - 3D Authentication required.",
+        "Q001" => "No transactionID provided. Ensure that a valid transactionID id is provided.",
+        "Q002" => "Records of the provided transactionID could not be found.",
+        "OK" => "API query sucessful"
+    ];
 
-
-class responses {
     function getResponse ($responseCode = [], $merchantDetails = []) {
-        global $codes, $currency, $merchant, $riskCodes;
         $responseCode = (object) $responseCode;
         $merchantDetails = (object) $merchantDetails;
         $merchantUsername = (!empty($responseCode->username)) ? $responseCode->username : '';
@@ -69,15 +67,15 @@ class responses {
                     $responseCode->field,
                     $responseCode->message
                 ];
-                $responseCode->description = str_replace($search, $replace, $codes[$responseCode->response]);
-            } else $responseCode->description = strtr($responseCode->response, $codes);
+                $responseCode->description = str_replace($search, $replace, self::$codes[$responseCode->response]);
+            } else $responseCode->description = strtr($responseCode->response, self::$codes);
 
             // formating the response
             if ($responseCode->response == "WL003") $responseCode->description = $responseCode->message;
             if (!empty($responseCode->reference)) $responseCode->transactionID = $responseCode->reference;
             if (!empty($responseCode->merchant_ref)) $responseCode->reference = $responseCode->merchant_ref;
             if (!empty($responseCode->redirect_url)) $responseCode->redirectUrl = $responseCode->redirect_url;
-            if (!empty($responseCode->riskCode)) $responseCode->riskDescription = strtr($responseCode->riskCode, $riskCodes);
+            if (!empty($responseCode->riskCode)) $responseCode->riskDescription = strtr($responseCode->riskCode, self::$riskCodes);
 
             $responseCode->status = ($responseCode->status == 'OK') ? 'OK' : 'ERROR';
 
@@ -88,7 +86,7 @@ class responses {
                 $maskedPan = explode("-", trim($responseCode->transaction->masked_pan));
 
                 $responseCode->transaction->currencySymbol = $responseCode->transaction->cur;
-                $responseCode->transaction->currency = strtr($responseCode->transaction->cur, $currency);
+                $responseCode->transaction->currency = strtr($responseCode->transaction->cur, self::$currency);
                 $responseCode->transaction->merchantID = $responseCode->transaction->merchant_id;
                 $responseCode->transaction->transactionID = $responseCode->transaction->transaction_id;
                 list($responseCode->transaction->transactionDate, $responseCode->transaction->transactionTime) = explode(" ", $responseCode->transaction->date, 2);
@@ -147,7 +145,4 @@ class responses {
         }
     }
 }
-
-$response = new responses;
-
 ?>

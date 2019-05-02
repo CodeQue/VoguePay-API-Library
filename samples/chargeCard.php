@@ -1,6 +1,6 @@
 <?php
-use src\VoguePay;
-include 'VoguePay/src/voguepay.php'; // change to match the location of the file
+require_once './vendor/autoload.php'; // location of the autoload file
+use VoguePay\voguepay;
 $data = [];
 $data = [
     "version" => "2", // version of the API to be called

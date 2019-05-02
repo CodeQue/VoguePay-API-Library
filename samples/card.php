@@ -1,6 +1,6 @@
 <?php
-use src\VoguePay;
-include 'VoguePay/src/voguepay.php'; // change to match the location of the file
+require_once './vendor/autoload.php'; // location of the autoload file
+use VoguePay\voguepay;
 $data = [];
 $data = [
     "version" => "2", // version of the API to be called
@@ -9,6 +9,7 @@ $data = [
         "merchantID" => "***-***", // merchant merchantID on VoguePay
         "merchantEmail" => "****@gmail.com", // registered email address on VoguePay
         "apiToken" => "TUDMQ735hNKNaQCBkZYVHvjHqNBk", // Command API token
+        "publicKey" => file_get_contents('key.crt') // location of the stored public key
     ],
     "card" => [
         "name" => "**********", //Card holder name

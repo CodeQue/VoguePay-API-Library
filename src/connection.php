@@ -10,12 +10,11 @@ class connection {
    }
 
    function connect ($data) {
-      global $merchant;
-      $data->developer_code = "5cb86b78408f4";
+      $data->connectionProfile = uniqid();
       $payload = 'json='.urlencode(json_encode($data));
       //open curl connection
       $ch = curl_init();
-      curl_setopt($ch,CURLOPT_URL, $merchant->api());
+      curl_setopt($ch,CURLOPT_URL, merchantConfiguration::api());
       curl_setopt($ch,CURLOPT_HEADER, false);
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -30,5 +29,4 @@ class connection {
       return(json_decode($receivedResponse,true));
    }
 }
-$connection = new connection;
 ?>

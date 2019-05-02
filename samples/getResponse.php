@@ -1,6 +1,6 @@
 <?php
-use src\VoguePay;
-include 'VoguePay/src/voguepay.php'; // change to match the location of the file
+require_once './vendor/autoload.php';
+use VoguePay\voguepay;
 ?>
 <pre>
     <?php 

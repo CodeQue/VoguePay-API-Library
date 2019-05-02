@@ -1,17 +1,11 @@
 <?php
 //declare file namespace
-namespace merchantConfiguration;
+namespace VoguePay;
 // declare holding array details for merchant details
 
 class merchantConfiguration {
-   private $card = 'card';
-   private $getResponse = 'query';
-   private $api = 'https://voguepay.com/api/';
-
-
-   function api () { return $this->api; }
-   function card () { return $this->card; }
-   function getResponse () { return $this->getResponse; }
+   function api () { return 'https://voguepay.com/api/'; }
+   function card () { return 'card'; }
+   function getResponse () { return 'query'; }
 }
-$merchant = new merchantConfiguration;
 ?>
