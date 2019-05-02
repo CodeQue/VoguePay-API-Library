@@ -12,11 +12,7 @@
 <p>After installation, include the VoguePay class in your code. Example below</p>
 <div>
     <pre>
-        <?php
-            return [
-                require_once './vendor/autoload.php'; // location of the autoload file
-                use VoguePay\voguepay;
-            ];
-        ?>
+        require_once './vendor/autoload.php'; // location of the autoload file
+        use VoguePay\voguepay;
     </pre>
 </div>
