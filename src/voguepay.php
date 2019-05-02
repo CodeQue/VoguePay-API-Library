@@ -28,7 +28,7 @@ class voguepay {
             ]
         ];
         
-        if (empty($data->demo)) = $data->demo = false;
+        if (empty($data->demo)) $data->demo = false;
         //expected data request
         $payLoad = (object) [
             "merchant" => $data->merchant->merchantID, // merchant ID
@@ -65,7 +65,7 @@ class voguepay {
         $data = json_decode(json_encode($data));
         //generate hash
         $hash = hash('sha512',$data->merchant->apiToken.merchantConfiguration::getResponse().$data->merchant->merchantEmail.$reference);
-        if (empty($data->demo)) = $data->demo = false;
+        if (empty($data->demo)) $data->demo = false;
          //process details needed for the hashing
         $payload = (object) [
             "merchant" => $data->merchant->merchantID,
