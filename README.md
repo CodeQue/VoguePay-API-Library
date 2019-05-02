@@ -131,41 +131,41 @@
         </pre>
         <p>Sample Transaction response below</p>
         <pre>
-stdClass Object
-(
-    [apiProcessTime] => 0.002103 // API response time
-    [buyerDetails] => stdClass Object
-        (
-            [email] => ***@gmail.com // Customer Email address
-            [phone] => *********** // Customer Phone Number
-            [maskedPan] => 537010******6414 // Masked Pan used for payment
-            [cardType] =>  Mastercard // Card type 
-        )
+            stdClass Object
+            (
+                [apiProcessTime] => 0.002103 // API response time
+                [buyerDetails] => stdClass Object
+                (
+                    [email] => ***@gmail.com // Customer Email address
+                    [phone] => *********** // Customer Phone Number
+                    [maskedPan] => 537010******6414 // Masked Pan used for payment
+                    [cardType] =>  Mastercard // Card type 
+                )
 
-    [description] => API query sucessful // API response description
-    [response] => OK // API response code
-    [status] => OK // API status
-    [transaction] => stdClass Object
-        (
-            [total] => 10.00 // Amount paid
-            [status] => Approved // Transaction status
-            [currencySymbol] => ₦ // Transaction currency symbol
-            [currency] => NGN // Transaction currency Code
-            [merchantID] => ***-*** // Merchant ID of merchant on VoguePay
-            [transactionID] => 5cbf4690e41d0 // Transaction ID of transaction on VoguePay
-            [transactionDate] => 2019-05-01 // Date of transaction
-            [transactionTime] => 08:30:53 // Time of transaction
-            [reference] => 1x2345vbn // Reference, returned as passed in the payload. This can be used to authenticate transaction on merchant side
-            [description] => This is a test payment //Payment description
-            [totalPaidByCustomer] => 10.00 // Total paid by the customer
-            [creditedToMerchant] => 9.85 // Amount credited to merchant account on VoguePay
-            [chargesPaid] => 0.15 // Total charges paid on transaction
-            [extraConfiguredCharges] => 0.00 // Extra configured charges if applicable 
-            [fundsMaturity] => 2019-05-02 // Date of transaction maturity
-            [responseCode] => 00 // Transaction response code
-            [responseDescription] => Transaction Approved // Transaction response decription
-        )
-)
+                [description] => API query sucessful // API response description
+                [response] => OK // API response code
+                [status] => OK // API status
+                [transaction] => stdClass Object
+                (
+                    [total] => 10.00 // Amount paid
+                    [status] => Approved // Transaction status
+                    [currencySymbol] => ₦ // Transaction currency symbol
+                    [currency] => NGN // Transaction currency Code
+                    [merchantID] => ***-*** // Merchant ID of merchant on VoguePay
+                    [transactionID] => 5cbf4690e41d0 // Transaction ID of transaction on VoguePay
+                    [transactionDate] => 2019-05-01 // Date of transaction
+                    [transactionTime] => 08:30:53 // Time of transaction
+                    [reference] => 1x2345vbn // Reference, returned as passed in the payload. This can be used to authenticate transaction on merchant side
+                    [description] => This is a test payment //Payment description
+                    [totalPaidByCustomer] => 10.00 // Total paid by the customer
+                    [creditedToMerchant] => 9.85 // Amount credited to merchant account on VoguePay
+                    [chargesPaid] => 0.15 // Total charges paid on transaction
+                    [extraConfiguredCharges] => 0.00 // Extra configured charges if applicable 
+                    [fundsMaturity] => 2019-05-02 // Date of transaction maturity
+                    [responseCode] => 00 // Transaction response code
+                    [responseDescription] => Transaction Approved // Transaction response decription
+                )
+            )
         </pre>
     </div>
 </div>
