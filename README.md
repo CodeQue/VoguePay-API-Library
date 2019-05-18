@@ -13,16 +13,16 @@
 <div>
     <pre>
         require_once './vendor/autoload.php'; // location of the autoload file
-        use VoguePay\voguepay;
+        use VoguePay\Voguepay;
     </pre>
 </div>
 
 <div>
     <p>The class would make available the following functions</p>
     <pre>
-        voguepay::card($payLoad);
-        voguepay::chargeToken($payLoad);
-        voguepay::getResponse($transactionDetails);
+        VoguePay::card($payLoad);
+        VoguePay::chargeToken($payLoad);
+        VoguePay::getResponse($transactionDetails);
     </pre>
 </div>
 
@@ -30,14 +30,14 @@
 Using the PHP Library
 <div>
     <h3>Initiating Payment</h3>
-    <p>Using the voguepay::card function</p>
+    <p>Using the VoguePay::card function</p>
 </div>
 <pre>
-    voguepay::card($payLoad);
+    VoguePay::card($payLoad);
 </pre>
 <pre>
     require_once './vendor/autoload.php'; // location to the autoload file of the composer
-    use VoguePay\voguepay;
+    use VoguePay\VoguePay;
     $payLoad = [];
     $payLoad = [
         "version" => "2", // version of the API to be called
@@ -79,7 +79,7 @@ Using the PHP Library
         ],
         "demo" => false, // boolean (true / false) , set to true to initiate a demo transaction and false for live transaction
     ];
-    print_r(voguepay::card($data));
+    print_r(VoguePay::card($data));
 </pre>
 <div>
 <p>Sample successful response below</p>
@@ -108,7 +108,7 @@ Using the PHP Library
         [status] => ERROR
     )
 </pre>
-<p>The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for voguepay::getResponse()</p>
+<p>The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for VoguePay::getResponse()</p>
 <p>After payment is completed. A POST request ($_POST['transactionid]) is sent to the callback URL and redirect URL included in the payload. This is used to get the transaction response and validate if the transaction is successful</p>
 </div>
 <div>
@@ -117,7 +117,7 @@ Using the PHP Library
 <p>Sample code below</p>
 <pre>
     require_once './vendor/autoload.php';
-    use VoguePay\voguepay;
+    use VoguePay\VoguePay;
     $data = [
         "transactionID" => "5cbf4690e41d0",
         "merchant" => [
@@ -127,7 +127,7 @@ Using the PHP Library
             "apiToken" => "TUDMQ735hNKNaQCBkZYVHvjHqNBk", // Command API token of account on VoguePay
         ],
     ];
-    print_r(voguepay::getResponse($data));
+    print_r(VoguePay::getResponse($data));
 </pre>
 <p>Sample Transaction response below</p>
         
@@ -216,13 +216,13 @@ and the transaction response code [transaction][responseCode] is equals to 00
         )
     )
 </pre>
-<p>Tokenized details of the card [transaction][token] can be saved and used for future debits using voguepay::chargeToken()</p>
+<p>Tokenized details of the card [transaction][token] can be saved and used for future debits using VoguePay::chargeToken()</p>
 <h3>Charging a card with token</h3>
-<p>Using voguepay::chargeToken()</p>
+<p>Using VoguePay::chargeToken()</p>
 <p>Sample code below</p>
 <pre>
 require_once './vendor/autoload.php';
-use VoguePay\voguepay;
+use VoguePay\VoguePay;
 $data = [];
 $data = [
     "version" => "2", // version of the API to be called
@@ -251,8 +251,8 @@ $data = [
         "countryIso" => "NGA" // 3 letter country iso
     ],
 ];
-print_r(voguepay::chargeToken($data));
+print_r(VoguePay::chargeToken($data));
 </pre>
-<p>For sample response of voguepay::chargeToken() make reference to voguepay::getResponse() sample response and explanation.</p>
+<p>For sample response of VoguePay::chargeToken() make reference to VoguePay::getResponse() sample response and explanation.</p>
 </div>
 </div>
