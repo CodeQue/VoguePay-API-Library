@@ -1,7 +1,8 @@
 <?php
+
 namespace Voguepay;
 
-class response {
+class Responses {
 
     private static $currency = [
         "$" => "USD",
@@ -49,7 +50,7 @@ class response {
         "OK" => "API query sucessful"
     ];
 
-    function getResponse ($responseCode = [], $merchantDetails = []) {
+    public static function getResponse ($responseCode = [], $merchantDetails = []) {
         $responseCode = (object) $responseCode;
         $merchantDetails = (object) $merchantDetails;
         $merchantUsername = (!empty($responseCode->username)) ? $responseCode->username : '';
@@ -148,4 +149,3 @@ class response {
         }
     }
 }
-?>
