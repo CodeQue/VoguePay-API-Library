@@ -81,7 +81,7 @@ class Responses {
             if (!empty($responseCode->redirect_url)) $responseCode->redirectUrl = $responseCode->redirect_url;
             if (!empty($responseCode->riskCode)) $responseCode->riskDescription = strtr($responseCode->riskCode, self::$riskCodes);
 
-            $responseCode->status = ($responseCode->status == 'OK') ? 'OK' : 'ERROR';
+            $responseCode->status = (property_exists($responseCode, 'status') && $responseCode->status == 'OK') ? 'OK' : 'ERROR';
 
             //formating the transaction response
             if (!empty($responseCode->transaction)) {
