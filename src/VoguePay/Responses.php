@@ -87,7 +87,15 @@ class Responses {
             if (!empty($responseCode->transaction)) {
                 $responseCode->transaction = (object) $responseCode->transaction;
                 $responseCode->buyerDetails = (object) [];
-                $maskedPan = explode("-", trim($responseCode->transaction->masked_pan));
+
+                if(!empty(trim($responseCode->transaction->masked_pan))) {
+                    $maskedPanItems = explode("-", trim($responseCode->transaction->masked_pan));
+                    $maskedPan = $maskedPan[0] . "******" . $maskedPan[1];
+                    $cardType = ucwords($maskedPan[2]);
+                } else {
+                    $maskedPan = "******";
+                    $cardType = "";
+                }
 
                 $responseCode->transaction->currencySymbol = $responseCode->transaction->cur;
                 $responseCode->transaction->currency = strtr($responseCode->transaction->cur, self::$currency);
@@ -105,8 +113,8 @@ class Responses {
                 $responseCode->buyerDetails->name = (!empty($responseCode->transaction->name)) ? $responseCode->transaction->name : '';
                 $responseCode->buyerDetails->email = $responseCode->transaction->email;
                 $responseCode->buyerDetails->phone = (!empty($responseCode->transaction->buyer_phone)) ? $responseCode->transaction->buyer_phone : '';
-                $responseCode->buyerDetails->maskedPan = $maskedPan[0]."******".$maskedPan[1];
-                $responseCode->buyerDetails->cardType = ucwords($maskedPan[2]);
+                $responseCode->buyerDetails->maskedPan = $maskedPan;
+                $responseCode->buyerDetails->cardType = $cardType;
                 $responseCode->apiProcessTime = $responseCode->transaction->process_duration;
                 $responseCode->transaction->responseCode = $responseCode->transaction->response_code;
                 $responseCode->transaction->responseDescription = $responseCode->transaction->response_message;
