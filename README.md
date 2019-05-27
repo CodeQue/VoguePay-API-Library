@@ -13,7 +13,7 @@
 <div>
     <pre>
         require_once './vendor/autoload.php'; // location of the autoload file
-        use VoguePay\Voguepay;
+        use VoguePay\VoguePay;
     </pre>
 </div>
 
