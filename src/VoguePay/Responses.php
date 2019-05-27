@@ -1,7 +1,8 @@
 <?php
+
 namespace Voguepay;
 
-class response {
+class Responses {
 
     private static $currency = [
         "$" => "USD",
@@ -49,7 +50,7 @@ class response {
         "OK" => "API query sucessful"
     ];
 
-    function getResponse ($responseCode = [], $merchantDetails = []) {
+    public static function getResponse ($responseCode = [], $merchantDetails = []) {
         $responseCode = (object) $responseCode;
         $merchantDetails = (object) $merchantDetails;
         $merchantUsername = (!empty($responseCode->username)) ? $responseCode->username : '';
@@ -80,13 +81,21 @@ class response {
             if (!empty($responseCode->redirect_url)) $responseCode->redirectUrl = $responseCode->redirect_url;
             if (!empty($responseCode->riskCode)) $responseCode->riskDescription = strtr($responseCode->riskCode, self::$riskCodes);
 
-            $responseCode->status = ($responseCode->status == 'OK') ? 'OK' : 'ERROR';
+            $responseCode->status = (property_exists($responseCode, 'status') && $responseCode->status == 'OK') ? 'OK' : 'ERROR';
 
             //formating the transaction response
             if (!empty($responseCode->transaction)) {
                 $responseCode->transaction = (object) $responseCode->transaction;
                 $responseCode->buyerDetails = (object) [];
-                $maskedPan = explode("-", trim($responseCode->transaction->masked_pan));
+
+                if(!empty(trim($responseCode->transaction->masked_pan))) {
+                    $maskedPanItems = explode("-", trim($responseCode->transaction->masked_pan));
+                    $maskedPan = $maskedPan[0] . "******" . $maskedPan[1];
+                    $cardType = ucwords($maskedPan[2]);
+                } else {
+                    $maskedPan = "******";
+                    $cardType = "";
+                }
 
                 $responseCode->transaction->currencySymbol = $responseCode->transaction->cur;
                 $responseCode->transaction->currency = strtr($responseCode->transaction->cur, self::$currency);
@@ -104,8 +113,8 @@ class response {
                 $responseCode->buyerDetails->name = (!empty($responseCode->transaction->name)) ? $responseCode->transaction->name : '';
                 $responseCode->buyerDetails->email = $responseCode->transaction->email;
                 $responseCode->buyerDetails->phone = (!empty($responseCode->transaction->buyer_phone)) ? $responseCode->transaction->buyer_phone : '';
-                $responseCode->buyerDetails->maskedPan = $maskedPan[0]."******".$maskedPan[1];
-                $responseCode->buyerDetails->cardType = ucwords($maskedPan[2]);
+                $responseCode->buyerDetails->maskedPan = $maskedPan;
+                $responseCode->buyerDetails->cardType = $cardType;
                 $responseCode->apiProcessTime = $responseCode->transaction->process_duration;
                 $responseCode->transaction->responseCode = $responseCode->transaction->response_code;
                 $responseCode->transaction->responseDescription = $responseCode->transaction->response_message;
@@ -148,4 +157,3 @@ class response {
         }
     }
 }
-?>

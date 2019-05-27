@@ -1,22 +1,20 @@
 <?php
 
 namespace VoguePay;
-include dirname(__FILE__).'/merchant.php';
-use VoguePay\merchantConfiguration;
-include dirname(__FILE__).'/connection.php';
-use VoguePay\connection;
-include dirname(__FILE__).'/responses.php';
-use VoguePay\response;
 
-class voguepay {
+use VoguePay\MerchantConfiguration;
+use VoguePay\Connection;
+use VoguePay\Responses;
 
-    function card ($data) {
+class VoguePay {
+
+    public static function card ($data) {
         // making data an std class
         $data = json_decode(json_encode($data));
         $reference = time().mt_rand(0,9999999);
 
         //generate confirmation hash
-        $hash = hash('sha512', $data->merchant->apiToken.merchantConfiguration::card().$data->merchant->merchantEmail.$reference);
+        $hash = hash('sha512', $data->merchant->apiToken.MerchantConfiguration::card().$data->merchant->merchantEmail.$reference);
         // process card details
         $cardDetails = (object) [
             "card" => [
@@ -32,7 +30,7 @@ class voguepay {
         //expected data request
         $payLoad = (object) [
             "merchant" => $data->merchant->merchantID, // merchant ID
-            "task" => merchantConfiguration::card(), //Operation to be performed
+            "task" => MerchantConfiguration::card(), //Operation to be performed
             "ref" => $reference, // Random Reference
             "hash" => $hash, // Transaction Hash
             "version" => (!empty($data->version)) ? $data->version : '',
@@ -50,21 +48,21 @@ class voguepay {
             "redirect_url" => $data->notification->redirectUrl, // Redirection URL - Customer is redirected here when a transaction is completed
             "company" => (!empty($data->descriptor->companyName)) ? $data->descriptor->companyName : '', // Company name - Max allowed 100 {Optional}
             "country" => (!empty($data->descriptor->countryIso)) ? $data->descriptor->countryIso : '', // Company operational country - 3 letter ISO {Optional}
-            "params" => connection::encrypt(json_encode($cardDetails), $data->merchant->publicKey), // encrypted card data
+            "params" => Connection::encrypt(json_encode($cardDetails), $data->merchant->publicKey), // encrypted card data
             "riskAssessment" => json_encode($_SERVER), // Risk assesment
             "demo" => ($data->demo === true) ? true : false, // Set to true to do a testing transaction
         ];
         //initiate connection to VoguePay
-        $receivedResponse = connection::connect($payLoad);
+        $receivedResponse = Connection::connect($payLoad);
         // validate the response received
-        return response::getResponse($receivedResponse, $data->merchant);
+        return Responses::getResponse($receivedResponse, $data->merchant);
     }
 
-    function getResponse($data){
+    public static function getResponse($data){
         $reference = time().mt_rand(0,9999999); 
         $data = json_decode(json_encode($data));
         //generate hash
-        $hash = hash('sha512',$data->merchant->apiToken.merchantConfiguration::getResponse().$data->merchant->merchantEmail.$reference);
+        $hash = hash('sha512',$data->merchant->apiToken.MerchantConfiguration::getResponse().$data->merchant->merchantEmail.$reference);
         if (empty($data->demo)) $data->demo = false;
          //process details needed for the hashing
         $payload = (object) [
@@ -72,20 +70,20 @@ class voguepay {
             "merchant_email" => $data->merchant->merchantEmail,
             "hash" => $hash,
             "transaction_id" => $data->transactionID,
-            "task" => merchantConfiguration::getResponse(),
+            "task" => MerchantConfiguration::getResponse(),
             "ref" => $reference,
             "demo" => ($data->demo === true) ? true : false, // Set to true to do a testing transaction
         ];
         
-        $receivedResponse = connection::connect($payload);
-        return response::getResponse($receivedResponse, $data->merchant);
+        $receivedResponse = Connection::connect($payload);
+        return Responses::getResponse($receivedResponse, $data->merchant);
     }
 
-    function chargeToken ($data) {
+    public static function chargeToken ($data) {
         $data = json_decode(json_encode($data));
         $reference = time().mt_rand(0,9999999);
         //generate confirmation hash
-        $hash = hash('sha512', $data->merchant->apiToken.merchantConfiguration::card().$data->merchant->merchantEmail.$reference);
+        $hash = hash('sha512', $data->merchant->apiToken.MerchantConfiguration::card().$data->merchant->merchantEmail.$reference);
         $card_details = (object) [
             "card" => [
                 "cvv" => preg_replace('/\s+/', '', $data->card->cvv) // card cvv details
@@ -96,7 +94,7 @@ class voguepay {
         $payLoad = (object) [
             "version" => (!empty($data->version)) ? $data->version : '',
             "merchant" => $data->merchant->merchantID, // merchant ID
-            "task" => merchantConfiguration::card(), //Operation to be performed
+            "task" => MerchantConfiguration::card(), //Operation to be performed
             "ref" => $reference, // Random Reference
             "hash" => $hash, // Transaction Hash
             "total" => $data->transaction->amount, // Transaction amount, round to 2 digits 10.00
@@ -106,7 +104,7 @@ class voguepay {
             "memo" => $data->transaction->description, // Transaction description
             "company" => (!empty($data->descriptor->companyName)) ? $data->descriptor->companyName : '', // Company name - Max allowed 100 {Optional}
             "country" => (!empty($data->descriptor->countryIso)) ? $data->descriptor->countryIso : '', // Company operational country - 3 letter ISO {Optional}
-            "params" => connection::encrypt(json_encode($card_details), $data->merchant->publicKey), // encrypted card data
+            "params" => Connection::encrypt(json_encode($card_details), $data->merchant->publicKey), // encrypted card data
             "riskAssessment" => json_encode($_SERVER), // risk assessment evaluation
             "token" => $data->card->token
         ];
@@ -116,10 +114,10 @@ class voguepay {
         unset ($data->customer);
         unset ($data->transaction);
         unset ($data->descriptor);
-        $receivedResponse = (object) connection::connect($payLoad);
+        $receivedResponse = (object) Connection::connect($payLoad);
         $data->transactionID = $receivedResponse->reference;
         if (!empty($receivedResponse->reference)) return self::getResponse($data);
-        else return response::getResponse($receivedResponse, $data->merchant);
+        else return Responses::getResponse($receivedResponse, $data->merchant);
     }
 
 }

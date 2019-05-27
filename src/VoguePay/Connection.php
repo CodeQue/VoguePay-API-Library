@@ -1,15 +1,16 @@
 <?php
+
 namespace Voguepay;
 
-class connection {
+class Connection {
 
-   function encrypt ($data, $publicKey) {
+   public static function encrypt ($data, $publicKey) {
       openssl_public_encrypt($data, $encrypted, $publicKey);
       $encrypteData = bin2hex($encrypted);
       return $encrypteData;
    }
 
-   function connect ($data) {
+   public static function connect ($data) {
       $data->connectionProfile = uniqid();
       $payload = 'json='.urlencode(json_encode($data));
       //open curl connection
@@ -29,4 +30,3 @@ class connection {
       return(json_decode($receivedResponse,true));
    }
 }
-?>
