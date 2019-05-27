@@ -108,8 +108,10 @@ Using the PHP Library
         [status] => ERROR
     )
 </pre>
-<p>The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for VoguePay::getResponse()</p>
-<p>After payment is completed. A POST request ($_POST['transactionid]) is sent to the callback URL and redirect URL included in the payload. This is used to get the transaction response and validate if the transaction is successful</p>
+
+<p>The status [status] => OK is not a representation of a successful transaction. To get transaction status check the usage for voguepay::getResponse()</p>
+<p>After payment is completed. A POST request ($_POST['transaction_id]) is sent to the callback URL and redirect URL included in the payload. This is used to get the transaction response and validate if the transaction is successful</p>
+
 </div>
 <div>
 <h3>Getting transaction response</h3>
