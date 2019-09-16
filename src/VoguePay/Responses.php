@@ -90,7 +90,7 @@ class Responses {
 
                 if(!empty(trim($responseCode->transaction->masked_pan))) {
                     $maskedPanItems = explode("-", trim($responseCode->transaction->masked_pan));
-                    $maskedPan = $maskedPan[0] . "******" . $maskedPan[1];
+                    $maskedPan = $maskedPanItems[0] . "******" . $maskedPanItems[1];
                     $cardType = ucwords($maskedPan[2]);
                 } else {
                     $maskedPan = "******";
